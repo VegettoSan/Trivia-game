@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -7,44 +8,43 @@ using TMPro;
 public class InGame : MonoBehaviour
 {
     #region Variables
+    [Header("DATA CSV")]
     [SerializeField] QuestionsAndAnswers[] Datas;
     [SerializeField] QuestionsAndAnswers ActualQuestion, Question1, Question2, Question3, Question4, Question5;
     [SerializeField] TMP_Text Question;
     [SerializeField] TMP_Text A,B,C,D;
     [SerializeField] string CorrectAnswer;
-    [SerializeField] Image ButtonA, ButtonB, ButtonC, ButtonD;
+
+    [Header("UI")]
+    [SerializeField] Image ButtonA;
+    [SerializeField] Image ButtonB, ButtonC, ButtonD;
     [SerializeField] GameObject NextButton;
+    [SerializeField] GameObject Trivia, EndMenu;
+
+    [Header("SOUND")]
     [SerializeField] AudioSource Source;
-    [SerializeField] AudioClip Correct, Incorrect;
+    [SerializeField] AudioClip Correct, Incorrect, Congratulations, YouLose;
+
+    [Header("TIMER")]
     [SerializeField] TMP_Text CountTime;
     [SerializeField] float Timer;
     private bool EnableTimer;
 
     private string SelectedAnswer;
-    private int _score;
-    [SerializeField] TMP_Text ScoreText;
 
-    [SerializeField] GameObject Trivia, MainMenu;
+    [Header("SCORE")]
+    private int _score, _correct;
+    [SerializeField] TMP_Text ScoreText;
+    [SerializeField] TMP_Text CorrectText;
 
     #endregion
 
     void Update()
     {
-        CountTime.text = $"Tiempo Restante\n {Timer}";
-        ScoreText.text = $"PUNTAJE\n {_score}";
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ResetQuestions();
-        }
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            SelectedQuestions();
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            NextQuestion();
-        }
+        Timer = (float)Math.Round(Timer, 2);
+        CountTime.text = $"Tiempo Restante\n{Timer}";
+        ScoreText.text = $"PUNTAJE TOTAL:\n {_score}";
+        CorrectText.text = $"Respuestas Correctas:\n{_correct}\nRespuestas Incorrectas:\n{5 -_correct}";
 
         switch (EnableTimer)
         {
@@ -86,8 +86,15 @@ public class InGame : MonoBehaviour
         else if (ActualQuestion == Question5)
         {
             Trivia.SetActive(false);
-            MainMenu.SetActive(true);
-            ResetQuestions();
+            EndMenu.SetActive(true);
+            if(_correct >= 3)
+            {
+                Source.PlayOneShot(Congratulations);
+            }
+            else if (_correct < 3)
+            {
+                Source.PlayOneShot(YouLose);
+            }
         }
     }
 
@@ -219,46 +226,46 @@ public class InGame : MonoBehaviour
 
         if (Question1 == null)
         {
-            int i = Random.Range(0, Datas.Length);
+            int i = UnityEngine.Random.Range(0, Datas.Length);
             Question1 = Datas[i];
         }
         if (Question1 != null && Question2 == null)
         {
-            int i = Random.Range(0, Datas.Length);
+            int i = UnityEngine.Random.Range(0, Datas.Length);
             Question2 = Datas[i];
             if (Question2 == Question1)
             {
-                i = Random.Range(0, Datas.Length);
+                i = UnityEngine.Random.Range(0, Datas.Length);
                 Question2 = Datas[i];
             }
         }
         if (Question2 != null && Question3 == null)
         {
-            int i = Random.Range(0, Datas.Length);
+            int i = UnityEngine.Random.Range(0, Datas.Length);
             Question3 = Datas[i];
             if (Question3 == Question1 || Question3 == Question2)
             {
-                i = Random.Range(0, Datas.Length);
+                i = UnityEngine.Random.Range(0, Datas.Length);
                 Question3 = Datas[i];
             }
         }
         if (Question3 != null && Question4 == null)
         {
-            int i = Random.Range(0, Datas.Length);
+            int i = UnityEngine.Random.Range(0, Datas.Length);
             Question4 = Datas[i];
             if (Question4 == Question1 || Question4 == Question2 || Question4 == Question3)
             {
-                i = Random.Range(0, Datas.Length);
+                i = UnityEngine.Random.Range(0, Datas.Length);
                 Question4 = Datas[i];
             }
         }
         if (Question4 != null && Question5 == null)
         {
-            int i = Random.Range(0, Datas.Length);
+            int i = UnityEngine.Random.Range(0, Datas.Length);
             Question5 = Datas[i];
             if (Question5 == Question1 || Question5 == Question2 || Question5 == Question3 || Question5 == Question4)
             {
-                i = Random.Range(0, Datas.Length);
+                i = UnityEngine.Random.Range(0, Datas.Length);
                 Question5 = Datas[i];
             }
         }
@@ -279,7 +286,7 @@ public class InGame : MonoBehaviour
 
     public void SelectA()
     {
-        ButtonA.gameObject.SetActive(true);
+        //ButtonA.gameObject.SetActive(true);
         ButtonB.gameObject.SetActive(false);
         ButtonC.gameObject.SetActive(false);
         ButtonD.gameObject.SetActive(false);
@@ -383,7 +390,7 @@ public class InGame : MonoBehaviour
     public void SelectB()
     {
         ButtonA.gameObject.SetActive(false);
-        ButtonB.gameObject.SetActive(true);
+        //ButtonB.gameObject.SetActive(true);
         ButtonC.gameObject.SetActive(false);
         ButtonD.gameObject.SetActive(false);
 
@@ -488,7 +495,7 @@ public class InGame : MonoBehaviour
     {
         ButtonA.gameObject.SetActive(false);
         ButtonB.gameObject.SetActive(false);
-        ButtonC.gameObject.SetActive(true);
+        //ButtonC.gameObject.SetActive(true);
         ButtonD.gameObject.SetActive(false);
 
         NextButton.SetActive(true);
@@ -593,7 +600,7 @@ public class InGame : MonoBehaviour
         ButtonA.gameObject.SetActive(false);
         ButtonB.gameObject.SetActive(false);
         ButtonC.gameObject.SetActive(false);
-        ButtonD.gameObject.SetActive(true);
+        //ButtonD.gameObject.SetActive(true);
 
         NextButton.SetActive(true);
         //Q1
@@ -632,18 +639,6 @@ public class InGame : MonoBehaviour
                 Source.PlayOneShot(Incorrect);
                 ButtonD.color = Color.red;
 
-                if (CorrectAnswer == Question2.A)
-                {
-                    ButtonD.gameObject.SetActive(true);
-                }
-                else if (CorrectAnswer == Question2.B)
-                {
-                    ButtonD.gameObject.SetActive(true);
-                }
-                else if (CorrectAnswer == Question3.C)
-                {
-                    ButtonD.gameObject.SetActive(true);
-                }
             }
         }
         //Q3
@@ -663,18 +658,6 @@ public class InGame : MonoBehaviour
                 Source.PlayOneShot(Incorrect);
                 ButtonD.color = Color.red;
 
-                if (CorrectAnswer == Question3.A)
-                {
-                    ButtonD.gameObject.SetActive(true);
-                }
-                else if (CorrectAnswer == Question3.B)
-                {
-                    ButtonD.gameObject.SetActive(true);
-                }
-                else if (CorrectAnswer == Question3.C)
-                {
-                    ButtonD.gameObject.SetActive(true);
-                }
             }
         }
         //Q4
@@ -694,18 +677,6 @@ public class InGame : MonoBehaviour
                 Source.PlayOneShot(Incorrect);
                 ButtonD.color = Color.red;
 
-                if (CorrectAnswer == Question4.A)
-                {
-                    ButtonD.gameObject.SetActive(true);
-                }
-                else if (CorrectAnswer == Question4.B)
-                {
-                    ButtonD.gameObject.SetActive(true);
-                }
-                else if (CorrectAnswer == Question4.C)
-                {
-                    ButtonD.gameObject.SetActive(true);
-                }
             }
         }
         //Q5
@@ -725,18 +696,6 @@ public class InGame : MonoBehaviour
                 Source.PlayOneShot(Incorrect);
                 ButtonD.color = Color.red;
 
-                if (CorrectAnswer == Question5.A)
-                {
-                    ButtonD.gameObject.SetActive(true);
-                }
-                else if (CorrectAnswer == Question5.B)
-                {
-                    ButtonD.gameObject.SetActive(true);
-                }
-                else if (CorrectAnswer == Question5.C)
-                {
-                    ButtonD.gameObject.SetActive(true);
-                }
             }
         }
     }
@@ -769,12 +728,14 @@ public class InGame : MonoBehaviour
 
     public void Score()
     {
+        _correct++;
         _score += 10 * (int)Timer;
 
         Debug.Log("Puntua");
     }
     public void ScoreReset()
     {
+        _correct = 0;
         _score = 0;
     }
 
