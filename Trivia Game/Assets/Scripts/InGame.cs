@@ -41,7 +41,7 @@ public class InGame : MonoBehaviour
 
     void Update()
     {
-        Timer = (float)Math.Round(Timer, 2);
+        Timer = (float)Math.Round(Timer, 3);
         CountTime.text = $"Tiempo Restante\n{Timer}";
         ScoreText.text = $"PUNTAJE TOTAL:\n {_score}";
         CorrectText.text = $"Respuestas Correctas:\n{_correct}\nRespuestas Incorrectas:\n{5 -_correct}";
@@ -103,10 +103,22 @@ public class InGame : MonoBehaviour
     #region SelectedQuestion
     public void SelectedQuestion1()
     {
-        ButtonA.gameObject.SetActive(true);
-        ButtonB.gameObject.SetActive(true);
-        ButtonC.gameObject.SetActive(true);
-        ButtonD.gameObject.SetActive(true);
+        if(ButtonA.gameObject.activeSelf == false)
+        {
+            ButtonA.gameObject.SetActive(true);
+        }
+        if (ButtonB.gameObject.activeSelf == false)
+        {
+            ButtonB.gameObject.SetActive(true);
+        }
+        if (ButtonC.gameObject.activeSelf == false)
+        {
+            ButtonC.gameObject.SetActive(true);
+        }
+        if (ButtonD.gameObject.activeSelf == false)
+        {
+            ButtonD.gameObject.SetActive(true);
+        }
 
         EnableTimer = true;
         ButtonA.color = Color.white;
@@ -126,10 +138,22 @@ public class InGame : MonoBehaviour
     }
     public void SelectedQuestion2()
     {
-        ButtonA.gameObject.SetActive(true);
-        ButtonB.gameObject.SetActive(true);
-        ButtonC.gameObject.SetActive(true);
-        ButtonD.gameObject.SetActive(true);
+        if (ButtonA.gameObject.activeSelf == false)
+        {
+            ButtonA.gameObject.SetActive(true);
+        }
+        if (ButtonB.gameObject.activeSelf == false)
+        {
+            ButtonB.gameObject.SetActive(true);
+        }
+        if (ButtonC.gameObject.activeSelf == false)
+        {
+            ButtonC.gameObject.SetActive(true);
+        }
+        if (ButtonD.gameObject.activeSelf == false)
+        {
+            ButtonD.gameObject.SetActive(true);
+        }
 
         EnableTimer = true;
         ButtonA.color = Color.white;
@@ -149,10 +173,22 @@ public class InGame : MonoBehaviour
     }
     public void SelectedQuestion3()
     {
-        ButtonA.gameObject.SetActive(true);
-        ButtonB.gameObject.SetActive(true);
-        ButtonC.gameObject.SetActive(true);
-        ButtonD.gameObject.SetActive(true);
+        if (ButtonA.gameObject.activeSelf == false)
+        {
+            ButtonA.gameObject.SetActive(true);
+        }
+        if (ButtonB.gameObject.activeSelf == false)
+        {
+            ButtonB.gameObject.SetActive(true);
+        }
+        if (ButtonC.gameObject.activeSelf == false)
+        {
+            ButtonC.gameObject.SetActive(true);
+        }
+        if (ButtonD.gameObject.activeSelf == false)
+        {
+            ButtonD.gameObject.SetActive(true);
+        }
 
         EnableTimer = true;
         ButtonA.color = Color.white;
@@ -172,10 +208,22 @@ public class InGame : MonoBehaviour
     }
     public void SelectedQuestion4()
     {
-        ButtonA.gameObject.SetActive(true);
-        ButtonB.gameObject.SetActive(true);
-        ButtonC.gameObject.SetActive(true);
-        ButtonD.gameObject.SetActive(true);
+        if (ButtonA.gameObject.activeSelf == false)
+        {
+            ButtonA.gameObject.SetActive(true);
+        }
+        if (ButtonB.gameObject.activeSelf == false)
+        {
+            ButtonB.gameObject.SetActive(true);
+        }
+        if (ButtonC.gameObject.activeSelf == false)
+        {
+            ButtonC.gameObject.SetActive(true);
+        }
+        if (ButtonD.gameObject.activeSelf == false)
+        {
+            ButtonD.gameObject.SetActive(true);
+        }
 
         EnableTimer = true;
         ButtonA.color = Color.white;
@@ -195,10 +243,22 @@ public class InGame : MonoBehaviour
     }
     public void SelectedQuestion5()
     {
-        ButtonA.gameObject.SetActive(true);
-        ButtonB.gameObject.SetActive(true);
-        ButtonC.gameObject.SetActive(true);
-        ButtonD.gameObject.SetActive(true);
+        if (ButtonA.gameObject.activeSelf == false)
+        {
+            ButtonA.gameObject.SetActive(true);
+        }
+        if (ButtonB.gameObject.activeSelf == false)
+        {
+            ButtonB.gameObject.SetActive(true);
+        }
+        if (ButtonC.gameObject.activeSelf == false)
+        {
+            ButtonC.gameObject.SetActive(true);
+        }
+        if (ButtonD.gameObject.activeSelf == false)
+        {
+            ButtonD.gameObject.SetActive(true);
+        }
 
         EnableTimer = true;
         ButtonA.color = Color.white;
@@ -711,6 +771,25 @@ public class InGame : MonoBehaviour
             case true:
 
                 Timer -= Time.deltaTime * 1f;
+                if(Timer > 20f)
+                {
+                    CountTime.color = Color.white;
+                }
+                if(Timer <= 20f)
+                {
+                    CountTime.color = Color.red;
+                }
+                if(Timer <= 0f)
+                {
+                    NextButton.SetActive(true);
+                    ButtonA.gameObject.SetActive(false);
+                    ButtonB.gameObject.SetActive(false);
+                    ButtonC.gameObject.SetActive(false);
+                    ButtonD.gameObject.SetActive(false);
+                    Source.PlayOneShot(Incorrect);
+                    Timer = 0f;
+                    EnableTimer = false;
+                }
 
                 break;
 
